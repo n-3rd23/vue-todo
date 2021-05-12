@@ -42,6 +42,21 @@ const store = createStore({
           item.done = !item.done // toggles the value of done
         }
       })
+    },
+    addTask(state, payload) {
+      state.toDo.push(
+        {
+          id: Math.random(),
+          done: false,
+          text: payload.text
+        }
+      )
+    },
+    removeTask(state, payload) {
+      const filterdState = state.toDo.filter(item => {
+        return item.id !== payload.id
+      })
+      state.toDo = filterdState
     }
   },
   // getters 

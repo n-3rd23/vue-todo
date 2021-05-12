@@ -1,7 +1,7 @@
 <template>
-	<div :class="class" class="border p-3 wrapper rounded position-relative">
+	<div :class="class" class="border p-3 wrapper rounded position-relative overflow-hidden">
 		{{ text }}
-		<div class="hover-text position-absolute py-3 d-none">
+		<div class="hover-text position-absolute py-3">
 			Double Click to toggle
 			<button @click="onDelClick" class="btn btn-sm btn-danger position-absolute del-btn">DELETE</button>
 		</div>
@@ -31,12 +31,16 @@
 		top: 0;
 		bottom: 0;
 		left:0;
-		right: 0;
+		right: 100%;
 		color: white;
 		text-align: center;
 		cursor: pointer;
+		opacity: 0;
+		transition: .3s;
 	}
 	.wrapper:hover .hover-text {
-		display: block !important;
+		opacity: 1;
+		transition: .3s;
+		right: 0;
 	}
 </style>

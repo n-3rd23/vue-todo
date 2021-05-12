@@ -13,7 +13,7 @@
 	  		<ToDoItem 
           v-for="item in notCompletedTodos" 
           :key="item.id" 
-          @dblclick="completeTask({id:item.id})" 
+          @dblclick="toggleTask($event,item.id)" 
           class="mx-3 my-3 col-md-4" 
           :text="item.text"
           @delClick="deleteTask(item.id)"
@@ -27,7 +27,7 @@
 	  		<ToDoItem 
           v-for="item in completedTodos" 
           :key="item.id" 
-          @dblclick="completeTask({id:item.id})" 
+          @dblclick="toggleTask($event,item.id)" 
           class="mx-3 my-3 col-md-4 bg-success text-white" 
           :text="item.text"
           @delClick="deleteTask(item.id)"
@@ -66,18 +66,23 @@ export default {
       'removeTask'
   	]),
     addNewTask() {
-      this.addTask({text:this.toDoText})
-      this.toDoText = ''
+      if(!this.toDoText.length <= 0 ) {
+        this.addTask({text:this.toDoText})
+        this.toDoText = ''
+      }
     },
     deleteTask(taskId) {
       this.removeTask({id:taskId})
+    },
+    toggleTask(e, taskId) {
+      this.completeTask({id:taskId})
     }
   }
 };
 
 </script>
 
-<style>
+<style scoped>
 	a {
 		text-decoration: none;
 	}

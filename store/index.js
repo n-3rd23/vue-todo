@@ -35,6 +35,7 @@ const store = createStore({
     }
   },
   mutations: {
+  	
     // mutation to change done property
     completeTask (state,payload) {
       state.toDo.forEach(item => {
@@ -43,6 +44,7 @@ const store = createStore({
         }
       })
     },
+
     addTask(state, payload) {
       state.toDo.push(
         {
@@ -52,6 +54,7 @@ const store = createStore({
         }
       )
     },
+
     removeTask(state, payload) {
       const filterdState = state.toDo.filter(item => {
         return item.id !== payload.id
@@ -59,14 +62,18 @@ const store = createStore({
       state.toDo = filterdState
     }
   },
+
   // getters 
   getters: {
+
     // returning completed tasks
     completedTodos(state) {
       return state.toDo.filter(item => {
         return item.done
       })
     },
+
+    // returning cot completed tasks
     notCompletedTodos(state) {
       return state.toDo.filter(item => {
         return item.done == false

@@ -10,20 +10,23 @@
   			<button @click="isNotCompleteOpen = !isNotCompleteOpen" class="btn btn-sm btn-secondary">{{ isNotCompleteOpen ? 'Hide' : 'Show' }}</button>
   		</div>
 	  	<div v-if="isNotCompleteOpen" class="row justify-content-center my-3">
-	  		<ToDoItem 
-          v-for="item in notCompletedTodos" 
-          :key="item.id" 
-          @dblclick="toggleTask($event,item.id)" 
-          class="mx-3 my-3 col-md-4" 
-          :text="item.text"
-          @delClick="deleteTask(item.id)"
-        />
+        <transition-group :name="isItemDeleted ? 'del' : 'todo'">
+  	  		<ToDoItem 
+            v-for="item in notCompletedTodos" 
+            :key="item.id" 
+            @dblclick="toggleTask($event,item.id)" 
+            class="mx-3 my-3 col-md-4" 
+            :text="item.text"
+            @delClick="deleteTask(item.id)"
+          />
+      </transition-group>
 	  	</div>
 	  	<div class="my-3">
   			<span class="mx-3">Completed</span>
   			<button @click="isCompleteOpen = !isCompleteOpen" class="btn btn-sm btn-secondary">{{ isCompleteOpen ? 'Hide' : 'Show' }}</button>
   		</div>
 	  	<div v-if="isCompleteOpen" class="row justify-content-center my-3">
+        <transition-group :name="isItemDeleted ? 'del' : 'todo'">
 	  		<ToDoItem 
           v-for="item in completedTodos" 
           :key="item.id" 
@@ -32,6 +35,7 @@
           :text="item.text"
           @delClick="deleteTask(item.id)"
         />
+      </transition-group>
 	  	</div>
   </div>
 </template>
@@ -46,7 +50,8 @@ export default {
   	return {
   		toDoText: '',
       isNotCompleteOpen: true,
-      isCompleteOpen: true
+      isCompleteOpen: true,
+      isItemDeleted: false
   	}
   },
   components: {
@@ -73,8 +78,10 @@ export default {
     },
     deleteTask(taskId) {
       this.removeTask({id:taskId})
+      this.isItemDeleted = true
     },
     toggleTask(e, taskId) {
+      this.isItemDeleted = false
       this.completeTask({id:taskId})
     }
   }
@@ -86,4 +93,31 @@ export default {
 	a {
 		text-decoration: none;
 	}
+  .todo-enter-from {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  .todo-enter-to {
+    opacity: 1;
+  }
+  .todo-enter-active,
+  .todo-leave-active,
+  .del-leave-active {
+    transition: all .5s;
+  }
+  .todo-leave-from {
+    opacity: 1;
+  }
+  .todo-leave-to {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  .del-leave-to {
+    transform:scale(0.5,0.5);
+    opacity: 0;
+  }
 </style>
+
+<!-- .enter-from  -->
+<!-- .enter-to  -->
+<!-- .enter-active  -->
